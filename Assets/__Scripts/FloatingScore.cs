@@ -26,17 +26,17 @@ public enum eFSState {
 			        } 
 		          set { 
 			             _score =  value; 
-			             scoreString = _score.ToString("N0");// "N0" adds commas to the num 
+			             scoreString = _score.ToString("N0"); 
 			              // Search "C# Standard Numeric Format Strings" for ToString formats 
 			            GetComponent<Text>().text = scoreString; 
 			      } 
 		    } 
 
-	       public  List<Vector2>  bezierPts;  // Bézier points for movement 
-	       public  List<float>    fontSizes;  // Bézier points for font scaling 
+	       public  List<Vector2>  bezierPts;  
+	       public  List<float>    fontSizes;  
 	       public float            timeStart = -1f;
 	public float            timeDuration =  1f; 
-	       public string           easingCurve =  Easing.InOut;  // Uses Easing in Utils.cs 
+	       public string           easingCurve =  Easing.InOut;   
 	    
 	      // The GameObject that will receive the SendMessage when this is done moving 
 	       public  GameObject        reportFinishTo =  null; 
@@ -55,7 +55,7 @@ public enum eFSState {
 		    
 		         bezierPts =  new  List<Vector2>(ePts); 
 		    
-		         if  (ePts.Count ==  1) {    // If there's only one point 
+		         if  (ePts.Count ==  1) {    
 			         // ...then just go there. 
 			         transform.position = ePts[0]; 
 			           return; 
@@ -66,7 +66,7 @@ public enum eFSState {
 		       timeStart = eTimeS; 
 		       timeDuration = eTimeD; 
 		    
-		       state =  eFSState.pre;  // Set it to the pre state, ready to start moving 
+		       state =  eFSState.pre;  
 		     } 
 	    
 	       public void  FSCallback(FloatingScore  fs) { 
@@ -77,30 +77,30 @@ public enum eFSState {
 	    
 	     // Update is called once per frame 
 	     void Update () { 
-		          // If this is not moving, just return 
+		           
 		           if  (state ==  eFSState.idle)  return; 
 		    
-		         // Get u from the current time and duration 
-		         // u ranges from 0 to 1 (usually) 
+		         
+
 		          float  u = (Time.time - timeStart)/timeDuration; 
-		         // Use Easing class from Utils to curve the u value 
+		         
 		          float  uC =  Easing.Ease (u, easingCurve); 
-		          if  (u<0) {  // If u<0, then we shouldn't move yet. 
+		          if  (u<0) {  
 			           state =  eFSState.pre; 
-			           txt.enabled=  false;  // Hide the score initially 
+			           txt.enabled=  false;  
 		         }  else  { 
-			             if  (u>=1) {  // If u>=1, we're done moving 
-				               uC =  1;  // Set uC=1 so we don't overshoot 
+			             if  (u>=1) {   
+				               uC =  1;  
 				               state =  eFSState.post;
-				if  (reportFinishTo !=  null) {  //If there's a callback GameObject 
-					                    // Use SendMessage to call the FSCallback method 
-					                    //  with this as the parameter. 
+				if  (reportFinishTo !=  null) { 
+					                    
+
 					                   reportFinishTo.SendMessage("FSCallback",  this); 
-					                    // Now that the message has been sent, 
-					                    //  Destroy this gameObject 
+					                   
+
 					                   Destroy (gameObject); 
-				               }  else   {  // If there is nothing to callback 
-					                    // ...then don't destroy this. Just let it stay still. 
+				               }  else   { 
+					                     
 					                   state =  eFSState.idle; 
 					               } 
 			           }  else  { 
@@ -110,12 +110,12 @@ public enum eFSState {
 				            } 
 			             // Use Bézier curve to move this to the right point 
 			              Vector2  pos =  Utils.Bezier(uC, bezierPts); 
-			             // RectTransform anchors can be used to position UI objects relative 
-			             //  to total size of the screen  
+			             
+
 			            rectTrans.anchorMin = rectTrans.anchorMax = pos; 
 			              if  (fontSizes !=  null  && fontSizes.Count>0) { 
-				                 // If fontSizes has values in it 
-				                 // ...then adjust the fontSize of this GUIText 
+				                 
+
 				                  int  size =  Mathf.RoundToInt(  Utils.Bezier(uC, fontSizes) ); 
 				                GetComponent<Text>().fontSize = size; 
 				           } 

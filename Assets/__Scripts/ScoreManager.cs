@@ -2,7 +2,7 @@
    using System.Collections.Generic; 
    using UnityEngine; 
     
-   // An enum to handle all the possible scoring events 
+    
    public enum eScoreEvent { 
 	       draw, 
 	       mine, 
@@ -11,9 +11,9 @@
 	       gameLoss 
 	     } 
       
-     // ScoreManager handles all of the scoring 
-     public class  ScoreManager :  MonoBehaviour {                  // a 
-	         static private  ScoreManager  S;                              // b 
+     
+     public class  ScoreManager :  MonoBehaviour {                   
+	         static private  ScoreManager  S;                             
 	      
 	         static public int     SCORE_FROM_PREV_ROUND =  0; 
 	         static public int     HIGH_SCORE =  0; 
@@ -25,23 +25,23 @@
 	         public int              score =  0; 
 	      
 	         void  Awake() { 
-		           if (S ==  null) {                                            // c 
+		           if (S ==  null) {                                             
 			             S =  this;  // Set the private singleton  
 		         }  else { 
 			Debug.LogError("ERROR: ScoreManager.Awake(): S\u00a0is\u00a0already\u00a0set!"); 
          } 
       
-           // Check for a high score in PlayerPrefs 
+            
            if  (PlayerPrefs.HasKey ("ProspectorHighScore")) { 
              HIGH_SCORE =  PlayerPrefs.GetInt("ProspectorHighScore"); 
          } 
-          // Add the score from last round, which will be >0 if it was a win 
+          
          score += SCORE_FROM_PREV_ROUND; 
-          // And reset the SCORE_FROM_PREV_ROUND 
+           
          SCORE_FROM_PREV_ROUND =  0; 
        } 
       
-   static public void  EVENT( eScoreEvent  evt) {                  // d 
+   static public void  EVENT( eScoreEvent  evt) {                  
       try  {  // try-catch stops an error from breaking your program 
           S.Event(evt); 
       }  catch  (System .NullReferenceException  nre) { 
@@ -91,7 +91,7 @@
 		         } 
 		       } 
 	       
-	         static public int  CHAIN {  get  {  return  S.chain; } }              // e 
+	         static public int  CHAIN {  get  {  return  S.chain; } }               
 	         static public int  SCORE {  get  {  return  S.score; } } 
 	         static public int  SCORE_RUN {  get  {  return  S.scoreRun; } } 
 	    }

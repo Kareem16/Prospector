@@ -84,7 +84,7 @@ public class Deck : MonoBehaviour {
 			// for each decorator in the XML, copy attributes and set up location and flip if needed
 			deco = new Decorator();
 			deco.type = xDecos[i].att ("type");
-			deco.flip = (xDecos[i].att ("flip") == "1");   // too cute by half - if it's 1, set to 1, else set to 0
+			deco.flip = (xDecos[i].att ("flip") == "1");   
 			deco.scale = float.Parse (xDecos[i].att("scale"));
 			deco.loc.x = float.Parse (xDecos[i].att("x"));
 			deco.loc.y = float.Parse (xDecos[i].att("y"));
@@ -107,7 +107,7 @@ public class Deck : MonoBehaviour {
 				for (int j = 0; j < xPips.Count; j++) {
 					deco = new Decorator();
 					deco.type = "pip";
-					deco.flip = (xPips[j].att ("flip") == "1");   // too cute by half - if it's 1, set to 1, else set to 0
+					deco.flip = (xPips[j].att ("flip") == "1");   
 					
 					deco.loc.x = float.Parse (xPips[j].att("x"));
 					deco.loc.y = float.Parse (xPips[j].att("y"));
@@ -154,7 +154,7 @@ public class Deck : MonoBehaviour {
 		// temp variables
 		Sprite tS = null;
 		GameObject tGO = null;
-		SpriteRenderer tSR = null;  // so tempted to make a D&D ref here...
+		SpriteRenderer tSR = null;  
 		
 		for (int i=0; i<cardNames.Count; i++) {
 			GameObject cgo = Instantiate(prefabCard) as GameObject;
@@ -186,9 +186,9 @@ public class Deck : MonoBehaviour {
 					tSR.color = card.color;
 				}
 				
-				tSR.sortingOrder = 1;                     // make it render above card
-				tGO.transform.parent = cgo.transform;     // make deco a child of card GO
-				tGO.transform.localPosition = deco.loc;   // set the deco's local position
+				tSR.sortingOrder = 1;                     
+				tGO.transform.parent = cgo.transform;     
+				tGO.transform.localPosition = deco.loc;  
 				
 				if (deco.flip) {
 					tGO.transform.rotation = Quaternion.Euler(0,0,180);
@@ -234,7 +234,7 @@ public class Deck : MonoBehaviour {
 				tSR.sprite = tS;
 				tSR.sortingOrder = 1;
 				tGO.transform.parent=card.transform;
-				tGO.transform.localPosition = Vector3.zero;  // slap it smack dab in the middle
+				tGO.transform.localPosition = Vector3.zero;  
 				tGO.name = "face";
 			}
 
@@ -259,14 +259,14 @@ public class Deck : MonoBehaviour {
 				return (tS);
 			}
 		}//foreach	
-		return (null);  // couldn't find the sprite (should never reach this line)
+		return (null);  
 	 }// getFace 
 
 	 static public void Shuffle(ref List<Card> oCards)
 	 {
 	 	List<Card> tCards = new List<Card>();
 
-	 	int ndx;   // which card to move
+	 	int ndx;   
 
 	 	while (oCards.Count > 0) 
 	 	{

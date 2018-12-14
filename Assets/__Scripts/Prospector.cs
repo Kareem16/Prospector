@@ -127,15 +127,13 @@ public class Prospector : MonoBehaviour {
 
 			           // ^ Iterate through all the SlotDefs in the layout.slotDefs as tSD 
 
-			           cp = Draw();  // Pull a card from the top (beginning) of the draw Pile 
+			           cp = Draw();   
 
-			           cp.faceUp = tSD.faceUp;   // Set its faceUp to the value in SlotDef 
+			           cp.faceUp = tSD.faceUp;   
 
-			           cp.transform.parent = layoutAnchor;  // Make its parent layoutAnchor 
+			           cp.transform.parent = layoutAnchor;  
 
-			           // This replaces the previous parent: deck.deckAnchor, which 
-
-			           //  appears as _Deck in the Hierarchy when the scene is playing. 
+			          
 
 			           cp.transform.localPosition =  new  Vector3( 
 
@@ -157,7 +155,7 @@ public class Prospector : MonoBehaviour {
 
 			           // CardProspectors in the tableau have the state CardState.tableau 
 
-			           cp.SetSortingLayerName(tSD.layerName);  // Set the sorting layers 
+			           cp.SetSortingLayerName(tSD.layerName);   
 
 			        
 
@@ -230,7 +228,7 @@ public class Prospector : MonoBehaviour {
 
 		          foreach(  CardProspector  cd  in  tableau ) { 
 
-			        bool  faceUp =  true;  // Assume the card will be face-up 
+			        bool  faceUp =  true;  
 
 			        foreach(  CardProspector  cover  in  cd.hiddenBy ) { 
 
@@ -238,13 +236,13 @@ public class Prospector : MonoBehaviour {
 
 				            if  (cover.state ==  eCardState.tableau) { 
 
-					               faceUp =  false;  // then this card is face-down 
+					               faceUp =  false;   
 
 					           } 
 
 				         } 
 
-			         cd.faceUp = faceUp;  // Set the value on the card 
+			         cd.faceUp = faceUp;   
 
 			       } 
 
@@ -259,9 +257,9 @@ public class Prospector : MonoBehaviour {
 
 		        cd.state =  eCardState.discard; 
 
-		        discardPile.Add(cd);  // Add it to the discardPile List<> 
+		        discardPile.Add(cd);  
 
-		        cd.transform.parent = layoutAnchor;  // Update its transform parent   
+		        cd.transform.parent = layoutAnchor;     
 
 
 
@@ -294,7 +292,7 @@ public class Prospector : MonoBehaviour {
 
 		         if  (target !=  null) MoveToDiscard(target); 
 
-		        target = cd;  // cd is the new target 
+		        target = cd;  
 
 		        cd.state =  eCardState.target; 
 
@@ -312,7 +310,7 @@ public class Prospector : MonoBehaviour {
 
 
 
-		        cd.faceUp =  true;  // Make it face-up 
+		        cd.faceUp =  true;  
 
 		        // Set the depth sorting 
 
@@ -353,7 +351,7 @@ public class Prospector : MonoBehaviour {
 
 
 
-			            cd.faceUp =  false;  // Make them all face-down 
+			            cd.faceUp =  false;  
 
 			            cd.state =  eCardState.drawpile; 
 
@@ -386,11 +384,11 @@ public class Prospector : MonoBehaviour {
 
 			            // Clicking any card in the drawPile will draw the next card 
 
-			            MoveToDiscard(target);  // Moves the target to the discardPile 
+			            MoveToDiscard(target);   
 
-			           MoveToTarget(Draw());   // Moves the next drawn card to the target 
+			           MoveToTarget(Draw());    
 
-			           UpdateDrawPile();      // Restacks the drawPile 
+			           UpdateDrawPile();      
 			ScoreManager.EVENT(eScoreEvent.draw);
 			FloatingScoreHandler(eScoreEvent.draw);
 
@@ -420,7 +418,7 @@ public class Prospector : MonoBehaviour {
 
 				              } 
 
-			               if  (!validMatch)  return;  // return if not valid 
+			               if  (!validMatch)  return;   
 
 			         
 
@@ -582,10 +580,10 @@ public class Prospector : MonoBehaviour {
 				             } 
 			               break; 
 			      
-		             case  eScoreEvent.mine:  // Remove a mine card 
-			               // Create a FloatingScore for this score 
+		             case  eScoreEvent.mine:  
+			               
 			                 FloatingScore  fs; 
-			               // Move it from the mousePosition to fsPosRun 
+			                
 			                 Vector2  p0 =  Input.mousePosition;
 			p0.x /=  Screen.width; 
 			               p0.y /=  Screen.height; 

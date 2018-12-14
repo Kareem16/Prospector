@@ -160,7 +160,7 @@ public class PT_XMLReader {
 		if (!singleLine) { // This is a multiline tag (e.g. <tag> ....  </tag>)
 			// find the closing tag
 			int close = eS.IndexOf("</"+tag+">");
-// TODO: Should this do something more if there is no closing tag?
+
 			if (close == -1) {
 				Debug.Log("XMLReader ERROR: XML not well formed. Closing tag </"+tag+"> missing.");
 				return("");

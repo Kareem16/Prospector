@@ -34,15 +34,15 @@ public class  SlotDef  {
 }
 public class  Layout  :  MonoBehaviour  { 
 
-	     public  PT_XMLReader       xmlr;  // Just like Deck, this has a PT_XMLReader 
+	     public  PT_XMLReader       xmlr;  
 
-	     public  PT_XMLHashtable    xml;  // This variable is for faster xml access 
+	     public  PT_XMLHashtable    xml;   
 
-	     public  Vector2            multiplier;  // The offset of the tableau's center 
+	     public  Vector2            multiplier;   
 
 	    // SlotDef references 
 
-	     public  List<SlotDef>    slotDefs;  // All the SlotDefs for Row0-Row3 
+	     public  List<SlotDef>    slotDefs;  
 
 	     public  SlotDef           drawPile; 
 
@@ -62,9 +62,9 @@ public class  Layout  :  MonoBehaviour  {
 
 		      xmlr =  new  PT_XMLReader(); 
 
-		      xmlr.Parse(xmlText);        // The XML is parsed 
+		      xmlr.Parse(xmlText);         
 
-		      xml = xmlr.xml["xml"][0];  // And xml is set as a shortcut to the XML 
+		      xml = xmlr.xml["xml"][0];   
 
 		   
 
@@ -85,7 +85,7 @@ public class  Layout  :  MonoBehaviour  {
 
 		       for  (int  i=0; i<slotsX.Count; i++) { 
 
-			          tSD =  new  SlotDef();  // Create a new SlotDef instance 
+			          tSD =  new  SlotDef();   
 
 			           if  (slotsX[i].HasAtt("type")) { 
 

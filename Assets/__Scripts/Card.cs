@@ -7,16 +7,17 @@ public class Card : MonoBehaviour {
 	public string    suit;
 	public int       rank;
 	public Color     color = Color.black;
-	public string    colS = "Black";  // or "Red"
+	public string    colS = "Black";  
 	
 	public List<GameObject> decoGOs = new List<GameObject>();
+
 	public List<GameObject> pipGOs = new List<GameObject>();
 	
-	public GameObject back;  // back of card;
-	public CardDefinition def;  // from DeckXML.xml		
+	public GameObject back;  
 
-	// List of the SpriteRenderer Components of this GameObject and its children 
-	// List of the SpriteRenderer Components of this GameObject and its children 
+	public CardDefinition def;  	
+
+	
 
 	      public  SpriteRenderer[]        spriteRenderers; 
 
@@ -24,7 +25,7 @@ public class Card : MonoBehaviour {
 
 	      void  Start() { 
 
-		        SetSortOrder(0);    // Ensures that the card starts properly depth sorted 
+		        SetSortOrder(0);    
 
 		     } 
 
@@ -32,13 +33,9 @@ public class Card : MonoBehaviour {
 
 	     // If spriteRenderers is not yet defined, this function defines it 
 
-	      public  void  PopulateSpriteRenderers() { 
+	      public  void  PopulateSpriteRenderers() { 		         
 
-		         // If spriteRenderers is null or empty 
-
-		          if  (spriteRenderers ==  null  || spriteRenderers.Length ==  0) { 
-
-			// Get SpriteRenderer Components of this GameObject and its children
+		          if  (spriteRenderers ==  null  || spriteRenderers.Length ==  0) { 			
 
 			spriteRenderers = GetComponentsInChildren<SpriteRenderer>(); 
 
@@ -46,9 +43,7 @@ public class Card : MonoBehaviour {
 
 		     } 
 
-	      
-
-	     // Sets the sortingLayerName on all SpriteRenderer Components 
+	    	     
 
 	      public  void  SetSortingLayerName(string  tSLN) { 
 
@@ -66,39 +61,28 @@ public class Card : MonoBehaviour {
 
 	      
 
-	     // Sets the sortingOrder of all SpriteRenderer Components 
+	     
 
-	      public  void  SetSortOrder(int  sOrd) {                                       // a 
+	      public  void  SetSortOrder(int  sOrd) {                                        
 
 		       PopulateSpriteRenderers(); 
-
-		      
-
-		       // Iterate through all the spriteRenderers as tSR 
-
+		     		       
 		        foreach  (SpriteRenderer  tSR  in  spriteRenderers) { 
 
 			          if  (tSR.gameObject ==  this.gameObject) { 
+				            
+				             tSR.sortingOrder = sOrd;  
 
-				             // If the gameObject is this.gameObject, it's the background 
-
-				             tSR.sortingOrder = sOrd;  // Set it's order to sOrd 
-
-				              continue;  // And continue to the next iteration of the loop 
+				              continue;  
 
 				      
 
 				         } 
-
-			         // Each of the children of this GameObject are named 
-
-			         // switch based on the names 
+			      			        
 
 			         switch  (tSR.gameObject.name) { 
 
-			             case  "back" : // if the name is "back" 
-
-				// Set it to the highest layer to cover thethe other sprites 
+			             case  "back" : 				
 
 				                 tSR.sortingOrder = sOrd+2; 
 
@@ -106,11 +90,9 @@ public class Card : MonoBehaviour {
 
 				   
 
-			             case  "face":  // if the name is "face" 
+			             case  "face":   
 
-			             default:       //  or if it's anything else 
-
-				                 // Set it to the middle layer to be above the background            
+			             default:       				                             
 
 				                 tSR.sortingOrder = sOrd+1; 
 
@@ -130,29 +112,27 @@ public class Card : MonoBehaviour {
 		set {
 			back.SetActive(!value);
 		}
-	}
-
-	// Virtual methods can be overridden by subclass methods with the same name 
+	}	
 
 	     virtual public void  OnMouseUpAsButton() { 
 
-		        print (name);  // When clicked, this outputs the card name
+		        print (name);  
 
 }
 }// class Card
 
 [System.Serializable]
 public class Decorator{
-	public string	type;			// For card pips, tyhpe = "pip"
-	public Vector3	loc;			// location of sprite on the card
-	public bool		flip = false;	//whether to flip vertically
+	public string	type;			
+	public Vector3	loc;			
+	public bool		flip = false;	
 	public float 	scale = 1.0f;
 }
 
 [System.Serializable]
 public class CardDefinition{
-	public string	face;	//sprite to use for face cart
-	public int		rank;	// value from 1-13 (Ace-King)
+	public string	face;	
+	public int		rank;	
 	public List<Decorator>	
-					pips = new List<Decorator>();  // Pips Used
+					pips = new List<Decorator>();  
 }

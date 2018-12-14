@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 // This is actually OUTSIDE of the Utils Class
 public enum BoundsTest {
-	center,		// Is the center of the GameObject on screen
-	onScreen,	// Are the bounds entirely on screen
-	offScreen	// Are the bounds entirely off screen
+	center,		
+	onScreen,	
+	offScreen	
 }
 
 public class Utils : MonoBehaviour {
@@ -33,17 +33,17 @@ public class Utils : MonoBehaviour {
 	public static Bounds CombineBoundsOfChildren(GameObject go) {
 		// Create an empty Bounds b
 		Bounds b = new Bounds(Vector3.zero, Vector3.zero);
-		// If this GameObject has a Renderer Component...
+		
 		if (go.GetComponent<Renderer>() != null) {
 			// Expand b to contain the Renderer's Bounds
 			b = BoundsUnion(b, go.GetComponent<Renderer>().bounds);
 		}
-		// If this GameObject has a Collider Component...
+		
 		if (go.GetComponent<Collider>() != null) {
 			// Expand b to contain the Collider's Bounds
 			b = BoundsUnion(b, go.GetComponent<Collider>().bounds);
 		}
-		// Iterate through each child of this gameObject.transform
+		
 		foreach( Transform t in go.transform ) {
 			// Expand b to contain their Bounds as well
 			b = BoundsUnion( b, CombineBoundsOfChildren( t.gameObject ) );
@@ -69,9 +69,7 @@ public class Utils : MonoBehaviour {
 	public static void SetCameraBounds(Camera cam=null) {
 		// If no Camera was passed in, use the main Camera
 		if (cam == null) cam = Camera.main;
-		// This makes a couple important assumptions about the camera!:
-		//   1. The camera is Orthographic
-		//   2. The camera is at a rotation of R:[0,0,0]
+		
 		
 		// Make Vector3s at the topLeft and bottomRight of the Screen coords
 		Vector3 topLeft = new Vector3( 0, 0, 0 );
@@ -88,7 +86,7 @@ public class Utils : MonoBehaviour {
 		// Find the center of the Bounds
 		Vector3 center = (boundTLN + boundBRF)/2f;
 		_camBounds = new Bounds( center, Vector3.zero );
-		// Expand _camBounds to encapsulate the extents.
+		
 		_camBounds.Encapsulate( boundTLN );
 		_camBounds.Encapsulate( boundBRF );
 	}
@@ -97,20 +95,20 @@ public class Utils : MonoBehaviour {
 	
 	// Test to see whether Bounds are on screen.
 	public static Vector3 ScreenBoundsCheck(Bounds bnd, BoundsTest test = BoundsTest.center) {
-		// Call the more generic BoundsInBoundsCheck with camBounds as bigB
+		
 		return( BoundsInBoundsCheck( camBounds, bnd, test ) );
 	}
 	
 	// Tests to see whether lilB is inside bigB
 	public static Vector3 BoundsInBoundsCheck( Bounds bigB, Bounds lilB, BoundsTest test = BoundsTest.onScreen ) {
-		// Get the center of lilB
+		
 		Vector3 pos = lilB.center;
 		
 		// Initialize the offset at [0,0,0]
 		Vector3 off = Vector3.zero;
 		
 		switch (test) {			
-// The center test determines what off (offset) would have to be applied to lilB to move its center back inside bigB
+
 		case BoundsTest.center:
 			// if the center is contained, return Vector3.zero
 			if ( bigB.Contains( pos ) ) {
@@ -136,11 +134,11 @@ public class Utils : MonoBehaviour {
 			
 // The onScreen test determines what off would have to be applied to keep all of lilB inside bigB
 		case BoundsTest.onScreen:
-			// find whether bigB contains all of lilB
+			
 			if ( bigB.Contains( lilB.min ) && bigB.Contains( lilB.max ) ) {
 				return( Vector3.zero );
 			}
-			// if not, find the offset
+			
 			if (lilB.max.x > bigB.max.x) {
 				off.x = lilB.max.x - bigB.max.x;
 			} else  if (lilB.min.x < bigB.min.x) {
@@ -160,13 +158,13 @@ public class Utils : MonoBehaviour {
 			
 // The offScreen test determines what off would need to be applied to move any tiny part of lilB inside of bigB
 		case BoundsTest.offScreen:
-			// find whether bigB contains any of lilB
+			
 			bool cMin = bigB.Contains( lilB.min );
 			bool cMax = bigB.Contains( lilB.max );
 			if ( cMin || cMax ) {
 				return( Vector3.zero );
 			}
-			// if not, find the offset
+			
 			if (lilB.min.x > bigB.max.x) {
 				off.x = lilB.min.x - bigB.max.x;
 			} else  if (lilB.max.x < bigB.min.x) {
@@ -195,18 +193,17 @@ public class Utils : MonoBehaviour {
 	// This function will iteratively climb up the transform.parent tree
 	//   until it either finds a parent with a tag != "Untagged" or no parent
 	public static GameObject FindTaggedParent(GameObject go) {
-		// If this gameObject has a tag
+		
 		if (go.tag != "Untagged") {
-			// then return this gameObject
+			
 			return(go);
 		}
 		// If there is no parent of this Transform
 		if (go.transform.parent == null) {
-			// We've reached the end of the line with no interesting tag
-			// So return null
+			
 			return( null );
 		}
-		// Otherwise, recursively climb up the tree
+		
 		return( FindTaggedParent( go.transform.parent.gameObject ) );
 	}
 	// This version of the function handles things if a Transform is passed in
@@ -242,12 +239,12 @@ public class Utils : MonoBehaviour {
 		Vector3 res = (1-u)*vFrom + u*vTo;
 		return( res );
 	}
-	// The same function for Vector2
+	
 	static public Vector2 Lerp (Vector2 vFrom, Vector2 vTo, float u) {
 		Vector2 res = (1-u)*vFrom + u*vTo;
 		return( res );
 	}
-	// The same function for float
+	
 	static public float Lerp (float vFrom, float vTo, float u) {
 		float res = (1-u)*vFrom + u*vTo;
 		return( res );
@@ -265,13 +262,11 @@ public class Utils : MonoBehaviour {
 		if (vList.Count == 1) {
 			return( vList[0] );
 		}
-		// Otherwise, create vListR, which is all but the 0th element of vList
-		// e.g. if vList = [0,1,2,3,4] then vListR = [1,2,3,4]
+		
 		List<Vector3> vListR =  vList.GetRange(1, vList.Count-1);
-		// And create vListL, which is all but the last element of vList
-		// e.g. if vList = [0,1,2,3,4] then vListL = [0,1,2,3]
+		
 		List<Vector3> vListL = vList.GetRange(0, vList.Count-1);
-		// The result is the Lerp of these two shorter Lists
+		
 		Vector3 res = Lerp( Bezier(u, vListL), Bezier(u, vListR), u );
 		return( res );
 	}
@@ -288,11 +283,11 @@ public class Utils : MonoBehaviour {
 		if (vList.Count == 1) {
 			return( vList[0] );
 		}
-		// Otherwise, create vListR, which is all but the 0th element of vList
-		// e.g. if vList = [0,1,2,3,4] then vListR = [1,2,3,4]
+		
+
 		List<Vector2> vListR =  vList.GetRange(1, vList.Count-1);
-		// And create vListL, which is all but the last element of vList
-		// e.g. if vList = [0,1,2,3,4] then vListL = [0,1,2,3]
+		
+
 		List<Vector2> vListL = vList.GetRange(0, vList.Count-1);
 		// The result is the Lerp of these two shorter Lists
 		Vector2 res = Lerp( Bezier(u, vListL), Bezier(u, vListR), u );
@@ -311,13 +306,12 @@ public class Utils : MonoBehaviour {
 		if (vList.Count == 1) {
 			return( vList[0] );
 		}
-		// Otherwise, create vListR, which is all but the 0th element of vList
-		// e.g. if vList = [0,1,2,3,4] then vListR = [1,2,3,4]
+		
 		List<float> vListR =  vList.GetRange(1, vList.Count-1);
 		// And create vListL, which is all but the last element of vList
 		// e.g. if vList = [0,1,2,3,4] then vListL = [0,1,2,3]
 		List<float> vListL = vList.GetRange(0, vList.Count-1);
-		// The result is the Lerp of these two shorter Lists
+		
 		float res = Lerp( Bezier(u, vListL), Bezier(u, vListR), u );
 		return( res );
 	}
@@ -406,13 +400,7 @@ public class Easing {
 	static public string SinOut =		",SinOut|";
 	
 	static public Dictionary<string,EasingCachedCurve> cache;
-	// This is a cache for the information contained in the complex strings
-	//   that can be passed into the Ease function. The parsing of these
-	//   strings is most of the effort of the Ease function, so each time one
-	//   is parsed, the result is stored in the cache to be recalled much 
-	//   faster than a parse would take.
-	// Need to be careful of memory leaks, which could be a problem if several
-	//   million unique easing parameters are called
+	
 	
 	static public float Ease( float u, params string[] curveParams ) {
 		// Set up the cache for curves
